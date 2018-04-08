@@ -153,11 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="TestSystem.cpp" />
     <ClCompile Include="VengineTest.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\TestSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

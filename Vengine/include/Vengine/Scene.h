@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <Vengine/GameObject.h>
-#include <Vengine\SystemManager.h>
 
 namespace vengine {
 	class Scene
@@ -13,7 +12,6 @@ namespace vengine {
 		~Scene();
 
 		std::string name;
-		SystemManager sysManager;
 
 		void update();
 		void start();
@@ -21,6 +19,8 @@ namespace vengine {
 
 		GameObject* addGameObject();
 		GameObject* addGameObject(std::string name);
+
+		GameObject* findGameObject(std::string name);
 
 	private:
 		std::vector<GameObject> gameObjects;

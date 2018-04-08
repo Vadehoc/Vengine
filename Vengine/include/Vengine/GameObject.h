@@ -13,7 +13,7 @@ namespace vengine {
 		GameObject();
 		GameObject(std::string nameP);
 
-
+		std::string name;
 		//-------------------Frame-Events-------------------
 		
 		void update();
@@ -48,7 +48,6 @@ namespace vengine {
 
 
 	private://------------------Private Members-----------------
-		std::string name;
 		std::vector<std::shared_ptr<Component>> components;
 	};
 }

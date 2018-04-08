@@ -1,13 +1,14 @@
 #pragma once
 #define GLEW_STATIC
 
+#include <iostream>
+#include <map>
+
 #include <GL/glew.h>
 #include <GL/GLU.h>
 #include <GLFW\glfw3.h>
 
 #include <Vengine\Scene.h>
-
-#include <iostream>
 
 namespace vengine {
 
@@ -24,11 +25,14 @@ namespace vengine {
 		void clearScreen(float r, float g, float b);
 		void swap_window();
 		void quit();
-
+		void renderScene();
 	private:
 
 		int _width, _height;
 		GLFWwindow* window;
+		Scene* scene;
+
+		std::map < std::string, GLuint> vao;
 
 	};
 

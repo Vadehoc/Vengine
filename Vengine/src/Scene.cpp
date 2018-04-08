@@ -1,11 +1,11 @@
 #include "Vengine/Scene.h"
+#include <algorithm>
 
 namespace vengine
 {
 
 	Scene::Scene()
-		:name("Scene"),
-		 sysManager(SystemManager())
+		:name("Scene")
 	{
 	}
 
@@ -54,5 +54,15 @@ namespace vengine
 	{
 		gameObjects.push_back(GameObject(nameP));
 		return &gameObjects.back();
+	}
+
+	GameObject* Scene::findGameObject(const std::string name)
+	{
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			if (gameObjects[i].name == name)
+				return &gameObjects[i];
+		}
+		return NULL;
 	}
 }
