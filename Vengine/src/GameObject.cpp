@@ -38,4 +38,12 @@ namespace vengine {
 		}
 	}
 
+	void GameObject::render()
+	{
+		for (int i = 0; i != this->components.size(); i++)
+		{
+			components[i]->render();
+		}
+	}
+
 }

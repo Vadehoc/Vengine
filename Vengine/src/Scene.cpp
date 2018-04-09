@@ -43,6 +43,14 @@ namespace vengine
 		}
 	}
 
+	void Scene::render()
+	{
+		for (unsigned int i = 0; i < this->gameObjects.size(); i++)
+		{
+			gameObjects[i].render();
+		}
+	}
+
 	GameObject* Scene::addGameObject()
 	{
 		GameObject go = GameObject();

@@ -14,5 +14,6 @@ namespace vengine {
 	void Component::start()	{}
 	void Component::end() {}
 	void Component::update() {}
+	void Component::render() {}
 
 }

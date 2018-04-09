@@ -47,9 +47,9 @@ namespace vengine {
 
 	}
 
-	void Graphics::swap_window()
+	void Graphics::renderScene()
 	{
-
+		this->scene->render();
 	}
 
 	void Graphics::quit()

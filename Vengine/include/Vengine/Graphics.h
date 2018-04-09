@@ -10,6 +10,7 @@
 
 #include <Vengine\Scene.h>
 #include <Vengine\Mesh.h>
+#include <Vengine\Shader.h>
 
 namespace vengine {
 
@@ -34,7 +35,7 @@ namespace vengine {
 		Scene* scene;
 
 		std::map < std::string, Mesh> meshData;
-		std::map < std::string, std::string> shaderData;
+		std::map < std::string, Shader> shaderData;
 
 	};
 

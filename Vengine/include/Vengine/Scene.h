@@ -16,6 +16,7 @@ namespace vengine {
 		void update();
 		void start();
 		void end();
+		void render();
 
 		GameObject* addGameObject();
 		GameObject* addGameObject(std::string name);

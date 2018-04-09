@@ -19,6 +19,7 @@ namespace vengine {
 		void update();
 		void start();
 		void end();
+		void render();
 
 		//----------------Component-functions---------------
 

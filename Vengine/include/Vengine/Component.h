@@ -10,6 +10,7 @@ namespace vengine {
 		virtual void update();
 		virtual void start();
 		virtual void end();
+		virtual void render();
 
 	};
 }
