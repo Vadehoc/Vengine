@@ -9,6 +9,7 @@
 #include <GLFW\glfw3.h>
 
 #include <Vengine\Scene.h>
+#include <Vengine\Mesh.h>
 
 namespace vengine {
 
@@ -32,7 +33,8 @@ namespace vengine {
 		GLFWwindow* window;
 		Scene* scene;
 
-		std::map < std::string, GLuint> vao;
+		std::map < std::string, Mesh> meshData;
+		std::map < std::string, std::string> shaderData;
 
 	};
 

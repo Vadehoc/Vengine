@@ -123,6 +123,7 @@
     </Link>
     <Lib>
       <TargetMachine />
+      <AdditionalDependencies>opengl32.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -152,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
     <ClCompile Include="src\Components\Transform.cpp" />
@@ -179,6 +182,8 @@
     <ClInclude Include="include\Vengine\Transform.h" />
     <ClInclude Include="include\Vengine\Vector2.h" />
     <ClInclude Include="include\Vengine\Vector3.h" />
+    <ClInclude Include="include\Vengine\Mesh.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
