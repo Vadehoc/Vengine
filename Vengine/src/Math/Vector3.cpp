@@ -24,8 +24,8 @@ namespace vengine {
 	{}
 
 	float Vector3::x() { return x_; }
-	float Vector3::y() { return x_; }
-	float Vector3::z() { return x_; }
+	float Vector3::y() { return y_; }
+	float Vector3::z() { return z_; }
 
 	void Vector3::set_x(float x) { x_ = x; }
 	void Vector3::set_y(float y) { y_ = y; }

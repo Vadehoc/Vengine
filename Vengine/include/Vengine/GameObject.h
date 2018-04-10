@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <typeinfo>
+#include <iostream>
 #include <memory>
 #include <vector>
 #include <Vengine/Component.h>
@@ -12,6 +14,8 @@ namespace vengine {
 
 		GameObject();
 		GameObject(std::string nameP);
+
+		~GameObject();
 
 		std::string name;
 		//-------------------Frame-Events-------------------
@@ -28,7 +32,13 @@ namespace vengine {
 		{
 			static_assert(std::is_base_of<Component, T>::value, "T must be a descendant of Component");
 			T* tempT = new T();
-			components.push_back(std::shared_ptr<T>(tempT));
+			try {
+				components.push_back(tempT);
+			}
+			catch (const std::exception& e)
+			{
+				printf(e.what());
+			}
 			return tempT;
 		};
 
@@ -39,9 +49,8 @@ namespace vengine {
 			{
 				for (unsigned int i = 0; i < components.size(); i++)
 				{
-					if (typeid(*(components[i])) == typeid(T)) {
-						std::shared_ptr<T> tempT = std::dynamic_pointer_cast<T, Component>(components[i]);
-						return tempT.get();
+					if (typeid(*components[i]) == typeid(T)) {
+						return static_cast<T*>(components[i]);
 					}
 				}
 			}
@@ -49,6 +58,6 @@ namespace vengine {
 
 
 	private://------------------Private Members-----------------
-		std::vector<std::shared_ptr<Component>> components;
+		std::vector<Component*> components;
 	};
 }

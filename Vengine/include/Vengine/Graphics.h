@@ -2,6 +2,7 @@
 #define GLEW_STATIC
 
 #include <iostream>
+#include <stdio.h>
 #include <map>
 
 #include <GL/glew.h>
@@ -11,6 +12,7 @@
 #include <Vengine\Scene.h>
 #include <Vengine\Mesh.h>
 #include <Vengine\Shader.h>
+#include <Vengine\Vector3.h>
 
 namespace vengine {
 
@@ -21,11 +23,13 @@ namespace vengine {
 		Graphics();
 		~Graphics();
 
+		bool initialize(const char* window_name, int width, int height, Vector3 color);
 		bool initialize(const char* window_name, int width, int height);
 		bool isClosing();
 		void swapBuffer();
-		void clearScreen(float r, float g, float b);
-		void swap_window();
+		void setClearColor(float r, float g, float b);
+		void setClearColor(Vector3 color);
+		void clearScreen();
 		void quit();
 		void renderScene();
 	private:

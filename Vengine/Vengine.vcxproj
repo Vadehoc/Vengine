@@ -124,6 +124,7 @@
     <Lib>
       <TargetMachine />
       <AdditionalDependencies>opengl32.lib</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

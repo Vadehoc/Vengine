@@ -3,16 +3,17 @@
 namespace vengine {
 
 	GameObject::GameObject()
-		:name("GameObject")
+		:GameObject("GameObject")
 	{
-
 	}
 
 	GameObject::GameObject(std::string nameP)
 		:name(nameP)
 	{
-
+		components = std::vector<Component*>();
 	}
+
+	GameObject::~GameObject() {};
 
 	void GameObject::update()
 	{

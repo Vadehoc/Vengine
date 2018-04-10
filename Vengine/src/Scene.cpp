@@ -54,7 +54,7 @@ namespace vengine
 	GameObject* Scene::addGameObject()
 	{
 		GameObject go = GameObject();
-		gameObjects.push_back(GameObject());
+		gameObjects.push_back(go);
 		return &gameObjects.back();
 	}
 
