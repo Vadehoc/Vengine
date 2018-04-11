@@ -19,8 +19,11 @@ Mesh::Mesh(std::vector<GLfloat> vertexData, std::vector<GLuint> indices)
 	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(float), &this->vertexData[0], GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); //Position Attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0); //Position Attribute
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float))); //Position Attribute
+	glEnableVertexAttribArray(1);
 
 	glGenBuffers(1, &this->ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
@@ -35,7 +38,7 @@ Mesh::Mesh(std::vector<GLfloat> vertexData, std::vector<GLuint> indices)
 void Mesh::draw()
 {
 	glBindVertexArray(this->vao);
-	glDrawElements(GL_TRIANGLES, this->vertexData.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 

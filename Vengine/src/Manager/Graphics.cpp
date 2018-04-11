@@ -1,4 +1,7 @@
 #include <Vengine\Graphics.h>
+#include <glm\glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace vengine {
 
@@ -20,6 +23,8 @@ namespace vengine {
 	void onResize(GLFWwindow* window, int width, int height)
 	{
 		glViewport(0, 0, width, height);
+		glm::mat4 proj = glm::perspective(glm::radians(90.0f), (float)width / height, 0.5f, 10.0f);
+		glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(proj));
 	}
 
 	bool Graphics::initialize(const char* window_name, int width, int height, Vector3 color)
