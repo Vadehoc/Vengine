@@ -10,6 +10,7 @@ public:
 	~Mesh();
 
 	void draw();
+	void end();
 
 	GLuint vbo;
 	GLuint vao;
