@@ -19,6 +19,7 @@ public:
 	~Mesh();
 
 	void draw();
+	void end();
 
 	//Buffer Objects
 	GLuint vao; //Vertex Array Object

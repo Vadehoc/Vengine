@@ -12,6 +12,7 @@ namespace vengine {
 
 	Graphics::~Graphics()
 	{
+		delete window;
 	}
 
 	void window_close_callback(GLFWwindow* window)
@@ -29,31 +30,32 @@ namespace vengine {
 
 	bool Graphics::initialize(const char* window_name, int width, int height, Vector3 color)
 	{
-		glfwInit();
-		glfwWindowHint(GLFW_REFRESH_RATE, 60);
-		glfwWindowHint(GLFW_SAMPLES, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		window = glfwCreateWindow(width, height, window_name, NULL, NULL);
+		glewExperimental = true;
+		glewInit();
 
-		glfwMakeContextCurrent(window);
-
-		glewExperimental = GL_TRUE;
-		GLenum err = glewInit();
-		if (err != GLEW_OK)
+		if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		{
-			printf("Error initializing GLEW! %s\n", glewGetErrorString(err));
-			return false;
+			printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+		}else
+		{
+			//Create window
+			window = SDL_CreateWindow(window_name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
+			if (window == NULL)
+			{
+				printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			}else
+			{
+				//Get window surface
+				surface = SDL_GetWindowSurface(window);
+
+				//Update the surface
+				SDL_UpdateWindowSurface(window);
+			}
 		}
-		glEnable(GL_MULTISAMPLE);
+
 		glEnable(GL_DEPTH_TEST);
-		glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-		glEnable(GL_POLYGON_SMOOTH);
-		glEnable(GL_BLEND);
 
 		setClearColor(color);
-
-		glfwSetWindowSizeCallback(window, onResize);
 		return true;
 	}
 

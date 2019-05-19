@@ -1,3 +1,19 @@
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
+#endif
+
+#ifdef _DEBUG
+#define new DBG_NEW
+#endif
+
 #include "Vengine\Graphics.h"
 #include <Vengine\Scene.h>
 #include <Vengine\GameObject.h>
@@ -10,6 +26,7 @@
 
 
 int main(int argc, char *argv[], char *envp[]) {
+	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
 	char* vertexShader = R"glsl(
 		#version 150 core
 		#extension GL_ARB_explicit_attrib_location : enable
@@ -104,12 +121,13 @@ int main(int argc, char *argv[], char *envp[]) {
 	glLineWidth(3);
 
 	auto t_start = std::chrono::high_resolution_clock::now();
-
+	auto t_last = t_start;
+	GLuint64 frame = 0;
 	while (!graph.isClosing())
 	{
+		frame++;
 		auto t_now = std::chrono::high_resolution_clock::now();
 		float time = std::chrono::duration_cast<std::chrono::duration<float>>(t_now - t_start).count();
-
 		glm::mat4 trans;
 		trans = glm::rotate(
 			trans,
@@ -123,6 +141,10 @@ int main(int argc, char *argv[], char *envp[]) {
 		mesh.draw();
 		graph.swapBuffer();
 		glfwPollEvents();
+		t_now = std::chrono::high_resolution_clock::now();
+		float t_delta = std::chrono::duration_cast<std::chrono::duration<float>>(t_now - t_last).count();
+		t_last = t_now;
+	
 	}
-
+	mesh.end();
 }

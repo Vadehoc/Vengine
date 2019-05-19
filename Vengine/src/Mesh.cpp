@@ -1,4 +1,5 @@
 #include <Vengine\Mesh.h>
+
 #include <vector>
 
 
@@ -54,6 +55,12 @@ void Mesh::draw()
 	glBindVertexArray(0);
 }
 
+void Mesh::end()
+{
+	glDeleteVertexArrays(1, &this->vao);
+	glDeleteBuffers(1, &this->vbo);
+	glDeleteBuffers(1, &this->ebo);
+}
 
 Mesh::~Mesh()
 {

@@ -9,6 +9,8 @@
 #include <GL/GLU.h>
 #include <GLFW\glfw3.h>
 
+#include <SDL\SDL.h>
+
 #include <Vengine\Scene.h>
 #include <Vengine\Mesh.h>
 #include <Vengine\Shader.h>
@@ -35,7 +37,8 @@ namespace vengine {
 	private:
 
 		int _width, _height;
-		GLFWwindow* window;
+		SDL_Window* window;
+		SDL_Surface* surface;
 		Scene* scene;
 
 		std::map < std::string, Mesh> meshData;
