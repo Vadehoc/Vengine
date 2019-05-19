@@ -79,7 +79,6 @@ namespace vengine {
 	
 	void Graphics::setClearColor(Vector3 color)
 	{
-		std::cout << color.x() << color.y() << color.z();
 		glClearColor(color.x(), color.y(), color.z(), 1.0f);
 	}
 

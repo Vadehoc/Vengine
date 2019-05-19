@@ -1,5 +1,10 @@
 #include "Vengine\Shader.h"
+#include <glm/vec3.hpp>
 
+Shader::Shader()
+{
+
+}
 
 Shader::Shader(char* vertexShader, char* fragmentShader)
 {

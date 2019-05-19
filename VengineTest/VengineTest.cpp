@@ -18,9 +18,9 @@ int main(int argc, char *argv[], char *envp[]) {
 		layout(location = 0)in vec3 position;
 		layout(location = 1)in vec3 color;
 
-		layout(location = 0)uniform mat4 model;
-		layout(location = 1)uniform mat4 view;
-		layout(location = 2)uniform mat4 proj;
+		uniform mat4 model;
+		uniform mat4 view;
+		uniform mat4 proj;
 
 		out vec3 Color;
 
@@ -37,20 +37,27 @@ int main(int argc, char *argv[], char *envp[]) {
 		in vec3 Color;
 		out vec4 outColor;
 
+		uniform bool line;
+
 		void main()
 		{
-			outColor = vec4(Color, 1.0);
+			if(line)
+			{
+				outColor = vec4(0.0, 0.0, 0.0, 1.0);
+			}else{
+				outColor = vec4(Color, 1.0);
+			}
 		}
 	)glsl";
 
-	std::vector<float> vertecies = {-0.5f,  0.5f, 0.5f, 1.0f, 0.0f, 0.0f,// Vertex 1 (X, Y)
-									-0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f,// Vertex 2 (X, Y)
-									 0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-									 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, 1.0f,
-									-0.5f,  -0.5f, 0.5f, 0.0f, 1.0f, 0.0f,// Vertex 1 (X, Y)
-									-0.5f,  -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,// Vertex 2 (X, Y)
-									 0.5f,  -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-									 0.5f,  -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, };// Vertex 3 (X, Y)}
+	std::vector<float> vertecies = {-0.5f,  0.5f, 0.5f, 1.0f, 0.0f, 0.0f,	// X , Y, Z, R, G, B	rot
+									-0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f,	//Blau
+									 0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,	//Grün
+									 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, 1.0f,	//Weiß
+									-0.5f,  -0.5f, 0.5f, 0.0f, 1.0f, 0.0f,	//Grün
+									-0.5f,  -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,	//Weiß
+									 0.5f,  -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,	//Rot
+									 0.5f,  -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, };	//Blau
 
 	std::vector<GLuint> indices = { 0, 1, 2,
 									2, 3, 0,
@@ -67,7 +74,7 @@ int main(int argc, char *argv[], char *envp[]) {
 	};
 
 	vengine::Graphics graph = vengine::Graphics();
-	if (!graph.initialize("VengineTest", 600, 450, vengine::Vector3(0.172f, 0.242f, 0.313f)))
+	if (!graph.initialize("VengineTest", 1200, 900, vengine::Vector3(0.172f, 0.242f, 0.313f)))
 		exit(0);
 
 
@@ -76,8 +83,7 @@ int main(int argc, char *argv[], char *envp[]) {
 
 	Shader testShader = Shader(vertexShader, fragmentShader);
 	testShader.use();
-
-	Mesh mesh = Mesh(vertecies, indices);
+	Mesh mesh = Mesh(vertecies, indices, testShader);
 
 	glm::mat4 model = glm::mat4();
 	glm::mat4 view = glm::lookAt(
@@ -85,11 +91,17 @@ int main(int argc, char *argv[], char *envp[]) {
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f)
 	);
-	glm::mat4 proj = glm::perspective(glm::radians(90.0f), 600.0f / 450.0f, 0.5f, 10.0f);
+	glm::mat4 proj = glm::perspective(glm::radians(90.0f), 1200.0f / 900.0f, 0.5f, 10.0f);
 
-	glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(1, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(proj));
+	GLuint modelPos = glGetUniformLocation(mesh.meshShader.shaderProgram, "model");
+	GLuint viewPos = glGetUniformLocation(mesh.meshShader.shaderProgram, "view");
+	GLuint projPos = glGetUniformLocation(mesh.meshShader.shaderProgram, "proj");
+
+	glUniformMatrix4fv(modelPos, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(viewPos, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(projPos, 1, GL_FALSE, glm::value_ptr(proj));
+
+	glLineWidth(3);
 
 	auto t_start = std::chrono::high_resolution_clock::now();
 
@@ -101,10 +113,10 @@ int main(int argc, char *argv[], char *envp[]) {
 		glm::mat4 trans;
 		trans = glm::rotate(
 			trans,
-			time * glm::radians(90.0f),
+			time * glm::radians(30.0f),
 			glm::vec3(0.0f, 1.0f, 0.0f)
 		);
-		glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(trans));
+		glUniformMatrix4fv(modelPos	, 1, GL_FALSE, glm::value_ptr(trans));
 
 		graph.clearScreen();
 		scene.update();

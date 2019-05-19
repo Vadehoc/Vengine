@@ -1,21 +1,35 @@
 #pragma once
 #define GLEW_STATIC
-#include <GL\glew.h>
+
+//STD
+
 #include <vector>
+
+//OpenGl
+#include <GL\glew.h>
+
+//Internal
+#include <Vengine/Shader.h>
+
 class Mesh
 {
 public:
 	Mesh();
-	Mesh(std::vector<GLfloat> vertexData, std::vector<GLuint> indices);
+	Mesh(std::vector<GLfloat> vertexData, std::vector<GLuint> indices, Shader shader);
 	~Mesh();
 
 	void draw();
 
-	GLuint vbo;
-	GLuint vao;
-	GLuint ebo;
+	//Buffer Objects
+	GLuint vao; //Vertex Array Object
+	GLuint vbo;	//Vertex Buffer Object
+	GLuint ebo; //Element Buffer Object
+
+	//Vertex Sources
 	std::vector<GLfloat> vertexData;
 	std::vector<GLuint> indices;
+	//Shaders
+	Shader meshShader;
 
 };
 

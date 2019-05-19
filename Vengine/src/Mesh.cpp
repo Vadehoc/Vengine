@@ -7,8 +7,10 @@ Mesh::Mesh()
 
 }
 
-Mesh::Mesh(std::vector<GLfloat> vertexData, std::vector<GLuint> indices)
+Mesh::Mesh(std::vector<GLfloat> vertexData, std::vector<GLuint> indices, Shader shader)
 {
+	this->meshShader = shader;
+
 	this->vertexData = vertexData;
 	this->indices = indices;
 
@@ -22,7 +24,7 @@ Mesh::Mesh(std::vector<GLfloat> vertexData, std::vector<GLuint> indices)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0); //Position Attribute
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float))); //Position Attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float))); //Color Attribute
 	glEnableVertexAttribArray(1);
 
 	glGenBuffers(1, &this->ebo);
@@ -37,8 +39,18 @@ Mesh::Mesh(std::vector<GLfloat> vertexData, std::vector<GLuint> indices)
 
 void Mesh::draw()
 {
+	meshShader.use();
 	glBindVertexArray(this->vao);
-	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+	GLuint lineLocation = glGetUniformLocation(meshShader.shaderProgram, "line");
+
+	glUniform1i(lineLocation, 0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+
+	glUniform1i(lineLocation, 0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glDrawElements(GL_LINE_STRIP, this->indices.size(), GL_UNSIGNED_INT, 0);
+
 	glBindVertexArray(0);
 }
 
